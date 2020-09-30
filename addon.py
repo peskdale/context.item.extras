@@ -30,7 +30,11 @@ def main():
     item_path = py2_decode(sys.listitem.getVideoInfoTag().getPath())
     if not item_path:
         return
-    extras_dir = os.path.join(item_path, addon.getSetting('extras-folder'))
+    if py2_decode(sys.listitem.getVideoInfoTag().getMediaType()) == 'season':
+        season_path = 'Season %s' % py2_decode(sys.listitem.getVideoInfoTag().getSeason())
+        extras_dir = os.path.join(item_path, season_path, addon.getSetting('extras-folder'))
+    else:
+        extras_dir = os.path.join(item_path, addon.getSetting('extras-folder'))
     xbmc.log("[%s] opening '%s'" % (addon.getAddonInfo('id'), extras_dir), xbmc.LOGDEBUG)
 
     params = {
